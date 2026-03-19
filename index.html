@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Каталог товаров — Biznes Progress</title>
+  <title>Каталог товаров — MarketPro</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
@@ -976,15 +976,15 @@ header {
   <div class="logo">
     <div class="logo-icon">🛒</div>
     Biznes Progress
-  </div> 
-  <div margin-right: 10px; class="header-search"> 
-    <svg width="12" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+  </div>
+  <div class="header-search">
+    <svg width="10" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
       <circle cx="11" cy="11" r="8"/>
       <line x1="21" y1="21" x2="16.65" y2="16.65"/>
     </svg>
     <input type="text" id="searchInput" placeholder="Поиск товаров..." oninput="filterProducts()">
   </div>
-  <div class="header-right">📦 Каталог Alviero</div>
+  <div class="header-right">📦 Каталог товаров</div>
 </header>
 
 <div class="layout">
@@ -1057,245 +1057,316 @@ header {
 ══════════════════════════════════════════════ */
 const PRODUCTS = [
 
-  // ── Шампуни ────────────────────────────────
+
+
+  /*
+  
   {
-    id: 1,
+    id: 10555000,
     category: 'Шампуни',
     brand: 'HairLux',
     name: 'Шампунь увлажняющий',
     desc: 'Глубокое увлажнение для сухих и повреждённых волос. Формула с кератином и аргановым маслом.',
     price: 12900,
-    oldPrice: 15000,
+    oldPrice: 15000, yoki null,
     img: null,            // 👈 замени на: 'images/shampun-1.jpg'
     emoji: '🧴',
-    badge: 'sale',
+    badge: 'sale', yoki 'new', yoki null,
   },
+  
+  */
+
+
+ // 'Olivia мыло':
+  
   {
-    id: 2,
-    category: 'Шампуни',
-    brand: 'BioScalp',
-    name: 'Шампунь от перхоти',
-    desc: 'Эффективная формула с цинком. Устраняет перхоть уже после первого применения.',
-    price: 9800,
+    id: 1,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Allee francais',
+    desc: '90gr*96шт 140gr*48шт',
+    price: 4690/6990,
     oldPrice: null,
     img: 'images/1.gif',
-    emoji: '💧',
-    badge: 'new',
+    emoji: '🧼',
+    badge: null,
   },
+
+ {
+    id: 2,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Flora care',
+    desc: '140gr*48шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/2.gif',
+    emoji: '🧼',
+    badge: null,
+  },
+
   {
     id: 3,
-    category: 'Шампуни',
-    brand: 'NaturGreen',
-    name: 'Шампунь для объёма',
-    desc: 'Растительные экстракты придают волосам невероятный объём и блеск с утра до ночи.',
-    price: 11200,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Love series',
+    desc: '140gr*48шт',
+    price: 6990,
     oldPrice: null,
-    img: 'images/Deo_universal.jpg',
-    emoji: '🌿',
-    badge: null,
-  },
-  {
-    id: 4,
-    category: 'Шампуни',
-    brand: 'SilkCare',
-    name: 'Шампунь 2-в-1',
-    desc: 'Шампунь и кондиционер в одном флаконе. Экономия времени без потери качества.',
-    price: 8500,
-    oldPrice: null,
-    img: null,
-    emoji: '✨',
+    img: 'images/3.gif',
+    emoji: '🧼',
     badge: null,
   },
 
-  // ── Мыло ───────────────────────────────────
-  {
-    id: 5,
-    category: 'Мыло',
-    brand: 'PureSoap',
-    name: 'Мыло глицериновое',
-    desc: 'Нежное мыло на глицериновой основе. Увлажняет и смягчает кожу рук и тела.',
-    price: 3200,
-    oldPrice: 4000,
-    img: null,
+    {
+    id: 4,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Milk.n white',
+    desc: '45gr*96шт/140gr*48шт/275gr*24шт',
+    price: 6990/6990/6990,
+    oldPrice: null,
+    img: 'images/4.gif',
     emoji: '🧼',
-    badge: 'sale',
+    badge: null,
   },
+  
+    {
+    id: 5,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Banka',
+    desc: '4*105gr*16шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/5.gif',
+    emoji: '🧼',
+    badge: null,
+  },
+  
   {
     id: 6,
-    category: 'Мыло',
-    brand: 'AromaBar',
-    name: 'Мыло ароматное «Лаванда»',
-    desc: 'Натуральное мыло ручной работы с маслом лаванды и экстрактом алоэ вера.',
-    price: 4500,
+    category: 'Olivia мыло',
+    brand: 'Olivia',
+    name: 'Universal',
+    desc: '4*160gr*12шт',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '💜',
-    badge: 'new',
+    img: 'images/6.gif',
+    emoji: '🧼',
+    badge: null,
   },
+
+
+  // 'Olivia жидкое мыло':     
+   
   {
     id: 7,
-    category: 'Мыло',
-    brand: 'MediClean',
-    name: 'Антибактериальное мыло',
-    desc: 'Защищает от 99,9% бактерий. Рекомендовано для использования в медицине и HoReCa.',
-    price: 3800,
+    category: 'Olivia жидкое мыло',
+    brand: 'Olivia',
+    name: 'Fasion',
+    desc: '300ml*20шт / 500ml*15шт ',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🛡️',
+    img: 'images/7.gif',
+    emoji: '🧴',
     badge: null,
   },
+
   {
     id: 8,
-    category: 'Мыло',
-    brand: 'KidsLine',
-    name: 'Мыло детское',
-    desc: 'Гипоаллергенная формула для нежной детской кожи. Без красителей и парабенов.',
-    price: 2900,
+    category: 'Olivia жидкое мыло',
+    brand: 'Olivia',
+    name: 'Flora care',
+    desc: '300ml*20шт / 500ml*16шт ',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🐣',
+    img: 'images/8.gif',
+    emoji: '🧴',
     badge: null,
   },
 
-  // ── Жидкое мыло ────────────────────────────
-  {
+    {
     id: 9,
-    category: 'Жидкое мыло',
-    brand: 'FoamFresh',
-    name: 'Жидкое мыло «Морской бриз»',
-    desc: 'Освежающий аромат океана. Пенящаяся формула мягко очищает кожу.',
-    price: 5600,
-    oldPrice: 7000,
-    img: null,
-    emoji: '🌊',
-    badge: 'sale',
-  },
-  {
-    id: 10,
-    category: 'Жидкое мыло',
-    brand: 'PureSoap',
-    name: 'Жидкое мыло с алоэ',
-    desc: 'Экстракт алоэ вера питает и защищает кожу. Подходит для чувствительной кожи.',
-    price: 4900,
+    category: 'Olivia жидкое мыло',
+    brand: 'Olivia',
+    name: 'Love Fruittis',
+    desc: '500ml*12шт / 1000ml*6шт ',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🌵',
+    img: 'images/9.gif',
+    emoji: '🧴',
     badge: null,
   },
+
+ // 'Olivia шампунь':          '🫙',
+
+
+{
+    id: 10,
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Успокаивающий',
+    desc: '400ml*16шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/10.gif',
+    emoji: '🫙',
+    badge: null,
+  },
+
   {
     id: 11,
-    category: 'Жидкое мыло',
-    brand: 'AromaBar',
-    name: 'Жидкое мыло «Цитрус»',
-    desc: 'Бодрящий цитрусовый аромат. Антибактериальная защита на весь день.',
-    price: 5100,
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Natural',
+    desc: '400ml*16шт',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🍋',
-    badge: 'new',
+    img: 'images/11.gif',
+    emoji: '🫙',
+    badge: null,
   },
 
-  // ── Гели для душа ──────────────────────────
   {
     id: 12,
-    category: 'Гели для душа',
-    brand: 'SilkCare',
-    name: 'Гель для душа «Молоко»',
-    desc: 'Кремовая текстура на основе молочных протеинов. Оставляет кожу шелковистой.',
-    price: 7800,
-    oldPrice: 9500,
-    img: null,
-    emoji: '🥛',
-    badge: 'sale',
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Pro',
+    desc: '350ml*20шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/12.gif',
+    emoji: '🫙',
+    badge: null,
   },
+
   {
     id: 13,
-    category: 'Гели для душа',
-    brand: 'NaturGreen',
-    name: 'Гель для душа «Лес»',
-    desc: 'Натуральные экстракты кедра и можжевельника. Ощущение свежего леса.',
-    price: 8200,
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Le Buket',
+    desc: '1000ml*8шт',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🌲',
+    img: 'images/13.gif',
+    emoji: '🫙',
     badge: null,
   },
-  {
+  
+{
     id: 14,
-    category: 'Гели для душа',
-    brand: 'BioScalp',
-    name: 'Гель-скраб для душа',
-    desc: '2-в-1: гель и скраб. Натуральные частицы бамбука мягко отшелушивают кожу.',
-    price: 9300,
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Health',
+    desc: '1000ml*9шт',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🎋',
+    img: 'images/14.gif',
+    emoji: '🫙',
     badge: 'new',
   },
-
-  // ── Кондиционеры ───────────────────────────
-  {
+{
     id: 15,
-    category: 'Кондиционеры',
-    brand: 'HairLux',
-    name: 'Кондиционер восстанавливающий',
-    desc: 'Восстанавливает повреждённые волосы после окрашивания и термообработки.',
-    price: 13500,
+    category: 'Olivia шампунь',
+    brand: 'Olivia',
+    name: 'Pro 1.2',
+    desc: '1200ml*6шт',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '💎',
+    img: 'images/15.gif',
+    emoji: '🫙',
     badge: null,
-  },
-  {
-    id: 16,
-    category: 'Кондиционеры',
-    brand: 'SilkCare',
-    name: 'Несмываемый кондиционер',
-    desc: 'Лёгкая формула без смывания. Защищает от секущихся кончиков и придаёт блеск.',
-    price: 10800,
-    oldPrice: 12000,
-    img: null,
-    emoji: '🌸',
-    badge: 'sale',
   },
 
-  // ── Жидкий порошок ─────────────────────────
-  {
-    id: 17,
-    category: 'Жидкий порошок',
-    brand: 'CleanPro',
-    name: 'Жидкий порошок «Белоснежка»',
-    desc: 'Отличное отстирывание белых тканей. Без хлора. Активные ферменты.',
-    price: 18500,
-    oldPrice: 22000,
-    img: null,
-    emoji: '❄️',
-    badge: 'sale',
-  },
-  {
-    id: 18,
-    category: 'Жидкий порошок',
-    brand: 'EcoWash',
-    name: 'Эко-порошок для цветного',
-    desc: 'Безопасен для яркого белья. Концентрат — экономичный расход на стирку.',
-    price: 16900,
+// 'Olivia детская серия':    '🧸',
+
+{
+    id: 16,
+    category: 'Olivia детская серия',
+    brand: 'Olivia',
+    name: 'Для ухода за кожей',
+    desc: 'Крем 70*24, мыло 90*72, шампунь 270*20 ',
+    price: 6990,
     oldPrice: null,
-    img: null,
-    emoji: '🌈',
-    badge: 'new',
-  },
-  {
-    id: 19,
-    category: 'Жидкий порошок',
-    brand: 'CleanPro',
-    name: 'Порошок для детских вещей',
-    desc: 'Гипоаллергенный. Подходит для стирки детской одежды с рождения.',
-    price: 15200,
-    oldPrice: null,
-    img: null,
-    emoji: '👶',
+    img: 'images/16.gif',
+    emoji: '🧸',
     badge: null,
   },
+
+// 'Olivia ватные палочки':   '🥡',
+
+{
+    id: 17,
+    category: 'Olivia ватные палочки',
+    brand: 'Olivia',
+    name: 'Ватные палочки',
+    desc: '100шт, 200шт, 400шт ',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/17.gif',
+    emoji: '🥡',
+    badge: null,
+  },
+
+// 'Olivia влажные салфетки': '💧',
+
+{
+    id: 18,
+    category: 'Olivia влажные салфетки',
+    brand: 'Olivia',
+    name: 'Влажные салфетки',
+    desc: '100шт, 200шт, 400шт ',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/18.gif',
+    emoji: '🥡',
+    badge: null,
+  },
+
+// 'Olivia стик ролик':       '🌸',
+
+{
+    id: 19,
+    category: 'Olivia стик ролик',
+    brand: 'Olivia',
+    name: 'Антипреспирант шарик',
+    desc: '50ml*24шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/19.gif',
+    emoji: '🌸',
+    badge: null,
+  },
+
+  {
+    id: 20,
+    category: 'Olivia стик ролик',
+    brand: 'Olivia',
+    name: 'Антипреспирант стик',
+    desc: '48ml*24шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/20.gif',
+    emoji: '🌸',
+    badge: null,
+  },
+
+// 'Palmera мыло':            '🧼',
+{
+    id: 21,
+    category: 'Palmera мыло',
+    brand: 'Palmera',
+    name: 'Beauty soap',
+    desc: '50ml*24шт',
+    price: 6990,
+    oldPrice: null,
+    img: 'images/21.gif',
+    emoji: '🧼',
+    badge: null,
+  },
+
+
 ];
 
 
@@ -1306,13 +1377,22 @@ const PRODUCTS = [
    Имя должно совпадать с полем category в PRODUCTS
 ══════════════════════════════════════════════ */
 const CATEGORY_ICONS = {
-  'Все товары':     '🛍️',
-  'Шампуни':        '🧴',
-  'Мыло':           '🧼',
-  'Жидкое мыло':    '💧',
-  'Гели для душа':  '🚿',
-  'Кондиционеры':   '💆',
-  'Жидкий порошок': '🫧',
+  'Все товары':              '🛍️',
+  'Olivia мыло':             '🧼',
+  'Olivia жидкое мыло':      '🧴',
+  'Olivia шампунь':          '🫙',
+  'Olivia детская серия':    '🧸',
+  'Olivia ватные палочки':   '🥡',
+  'Olivia влажные салфетки': '💧',
+  'Olivia стик ролик':       '🌸',
+  'Palmera мыло':            '🧼',
+  'Palmera жидкое мыло':     '🧴',
+  'Palmera шампунь':         '🫙',
+  'Palmera освежитель':      '🌸',
+  'Palmera для посуды':      '🍽 ',
+  'Palmera для пола':        '🧹',
+  'Palmera для стирки':      '🫧',
+  'DEO серия':               '🫧',
 };
 
 // Список всех категорий (собирается автоматически из товаров)
