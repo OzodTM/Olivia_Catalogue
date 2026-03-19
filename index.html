@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог товаров — MarketPro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+  <style>
+/* ════════════════════════════════════════════════
+   style.css — Стили каталога MarketPro
+   Структура:
+   1. CSS-переменные (цвета, тени, радиусы)
+   2. Сброс и базовые стили
+   3. Шапка (header)
+   4. Макет (layout, sidebar, main)
+   5. Категории в сайдбаре
+   6. Сетка товаров (grid)
+   7. Карточка товара (card)
+   8. Модальное окно (modal)
+   9. Служебные стили (empty, scrollbar)
+   10. Адаптив: планшет 1024px
+   11. Адаптив: планшет 768px
+   12. Адаптив: телефон 480px
+════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════
+   1. CSS-ПЕРЕМЕННЫЕ
+   Меняй здесь цвета — изменится всё
+══════════════════════════════════ */
+:root {
+  --bg:           #f0f4f8;        /* фон страницы          */
+  --sidebar-bg:   #ffffff;        /* фон сайдбара          */
+  --accent:       #2563eb;        /* основной синий        */
+  --accent2:      #7c3aed;        /* фиолетовый акцент     */
+  --accent-light: #eff6ff;        /* светло-синий фон      */
+  --text:         #1e293b;        /* основной текст        */
+  --text-muted:   #64748b;        /* второстепенный текст  */
+  --card-bg:      #ffffff;        /* фон карточки          */
+  --border:       #e2e8f0;        /* цвет рамок            */
+  --shadow:       0 4px 24px rgba(37, 99, 235, 0.08);
+  --shadow-hover: 0 12px 40px rgba(37, 99, 235, 0.18);
+  --radius:       18px;
+  --badge-green:  #10b981;
+}
+
+
+/* ══════════════════════════════════
+   2. СБРОС И БАЗА
+══════════════════════════════════ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+
+/* ══════════════════════════════════
+   3. ШАПКА
+══════════════════════════════════ */
+header {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  color: #fff;
+  padding: 0 32px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 20px rgba(37, 99, 235, 0.25);
+}
+
+.logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo-icon {
+  width: 36px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.header-search {
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  padding: 6px 16px;
+  gap: 8px;
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  transition: background 0.2s;
+  min-width: 260px;
+}
+
+.header-search:focus-within {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.header-search input {
+  background: none;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.header-search input::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.header-search svg {
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+
+/* ══════════════════════════════════
+   4. МАКЕТ
+══════════════════════════════════ */
+.layout {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 64px);
+}
+
+/* Сайдбар */
+.sidebar {
+  width: 240px;
+  min-width: 200px;
+  background: var(--sidebar-bg);
+  border-right: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 24px 0 16px;
+  overflow-y: auto;
+  position: sticky;
+  top: 64px;
+  height: calc(100vh - 64px);
+}
+
+.sidebar-title {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 0 20px 12px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 10px 16px;
+}
+
+/* Основная область */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px 32px 40px;
+}
+
+.main-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Бейдж с количеством товаров */
+.main-title span {
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: var(--border);
+  padding: 3px 10px;
+  border-radius: 20px;
+  margin-left: 6px;
+}
+
+/* Сортировка */
+.sort-bar {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.sort-btn {
+  padding: 6px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text-muted);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.sort-btn.active,
+.sort-btn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+
+/* ══════════════════════════════════
+   5. КАТЕГОРИИ В САЙДБАРЕ
+══════════════════════════════════ */
+.cat-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 20px;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  border-left: 3px solid transparent;
+}
+
+.cat-item:hover {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.cat-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  border-left-color: var(--accent);
+}
+
+.cat-icon {
+  font-size: 1.25rem;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: var(--bg);
+  transition: background 0.18s;
+  flex-shrink: 0;
+}
+
+.cat-item.active .cat-icon,
+.cat-item:hover .cat-icon {
+  background: #dbeafe;
+}
+
+.cat-count {
+  margin-left: auto;
+  font-size: 0.72rem;
+  background: var(--border);
+  color: var(--text-muted);
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 700;
+}
+
+.cat-item.active .cat-count {
+  background: var(--accent);
+  color: #fff;
+}
+
+
+/* ══════════════════════════════════
+   6. СЕТКА ТОВАРОВ
+══════════════════════════════════ */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 22px;
+}
+
+
+/* ══════════════════════════════════
+   7. КАРТОЧКА ТОВАРА
+══════════════════════════════════ */
+.product-card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  transition: box-shadow 0.28s, transform 0.28s;
+  position: relative;
+  border: 1.5px solid var(--border);
+  display: flex;
+  flex-direction: column;
+
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+  animation: cardIn 0.5s cubic-bezier(.22, .68, 0, 1.3) forwards;
+}
+
+.product-card:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-6px) scale(1.025);
+  border-color: #bfdbfe;
+}
+
+/* Анимация появления карточки */
+@keyframes cardIn {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Задержка появления каждой карточки — эффект волны */
+.product-card:nth-child(1)  { animation-delay: 0.04s; }
+.product-card:nth-child(2)  { animation-delay: 0.09s; }
+.product-card:nth-child(3)  { animation-delay: 0.14s; }
+.product-card:nth-child(4)  { animation-delay: 0.18s; }
+.product-card:nth-child(5)  { animation-delay: 0.22s; }
+.product-card:nth-child(6)  { animation-delay: 0.26s; }
+.product-card:nth-child(7)  { animation-delay: 0.30s; }
+.product-card:nth-child(8)  { animation-delay: 0.34s; }
+.product-card:nth-child(9)  { animation-delay: 0.38s; }
+.product-card:nth-child(10) { animation-delay: 0.42s; }
+.product-card:nth-child(11) { animation-delay: 0.46s; }
+.product-card:nth-child(12) { animation-delay: 0.50s; }
+
+/* Бейджи «Скидка» / «Новинка» */
+.card-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--badge-green);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  z-index: 2;
+  text-transform: uppercase;
+}
+
+.card-badge.sale { background: #ef4444; }
+.card-badge.new  { background: #7c3aed; }
+
+/* Кнопка избранного */
+.card-wishlist {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  z-index: 2;
+  transition: transform 0.18s;
+  cursor: pointer;
+}
+
+.card-wishlist:hover {
+  transform: scale(1.2);
+}
+
+/* Блок с фото / emoji */
+.card-img-wrap {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, #f8faff 0%, #e8f0fe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Реальное фото товара из папки images/ */
+.card-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(.22, .68, 0, 1.1);
+}
+
+.product-card:hover .card-img-wrap img {
+  transform: scale(1.10);
+}
+
+/* Emoji-заглушка если нет фото */
+.card-emoji {
+  font-size: 5rem;
+  line-height: 1;
+  transition: transform 0.4s cubic-bezier(.22, .68, 0, 1.3);
+}
+
+.product-card:hover .card-emoji {
+  transform: scale(1.15) rotate(-4deg);
+}
+
+/* Нижняя часть карточки */
+.card-body {
+  padding: 14px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1;
+}
+
+.card-brand {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.card-name {
+  font-size: 0.97rem;
+  font-weight: 800;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.card-desc {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+
+.card-price {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.price-old {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.price-main {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.price-main .currency {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.card-btn {
+  padding: 7px 16px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.card-btn:hover {
+  opacity: 0.88;
+  transform: scale(1.04);
+}
+
+
+/* ══════════════════════════════════
+   8. МОДАЛЬНОЕ ОКНО
+══════════════════════════════════ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-overlay.open {
+  display: flex;
+}
+
+.modal {
+  background: #fff;
+  border-radius: 24px;
+  max-width: 620px;
+  width: 94vw;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.2);
+  animation: modalIn 0.38s cubic-bezier(.22, .68, 0, 1.2) forwards;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.88) translateY(40px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* Блок с фото в модалке — авторазмер под квадратное фото 600x600 */
+.modal-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;        /* квадрат под фото 600x600 */
+  max-height: 620px;
+  background: linear-gradient(135deg, #f0f6ff, #e0e8ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 7rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Реальное фото — заполняет весь квадратный блок */
+.modal-img img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;        /* contain — фото целиком, не обрезается */
+  display: block;
+  background: linear-gradient(135deg, #f0f6ff, #e0e8ff);
+}
+
+/* Анимация emoji в модалке */
+.modal-img-emoji {
+  animation: floatIn 0.5s cubic-bezier(.22, .68, 0, 1.3) 0.1s both;
+}
+
+@keyframes floatIn {
+  from { transform: scale(0.4) translateY(40px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+/* Кнопка закрытия */
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.18s;
+}
+
+.modal-close:hover {
+  background: #fff;
+}
+
+.modal-body {
+  padding: 20px 24px 24px;
+}
+
+.modal-brand {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+.modal-name {
+  font-size: 1.4rem;
+  font-weight: 900;
+  margin-bottom: 8px;
+}
+
+.modal-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.modal-price {
+  font-size: 1.6rem;
+  font-weight: 900;
+}
+
+.modal-price .currency {
+  font-size: 1rem;
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.modal-btn {
+  padding: 12px 28px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  border: none;
+  border-radius: 50px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: opacity 0.18s, transform 0.18s;
+}
+
+.modal-btn:hover {
+  opacity: 0.88;
+  transform: scale(1.04);
+}
+
+
+/* ══════════════════════════════════
+   9. СЛУЖЕБНЫЕ СТИЛИ
+══════════════════════════════════ */
+
+/* Пустой результат поиска */
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 64px 20px;
+  color: var(--text-muted);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.empty h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+/* Скроллбар */
+::-webkit-scrollbar         { width: 6px; }
+::-webkit-scrollbar-track   { background: transparent; }
+::-webkit-scrollbar-thumb   { background: #cbd5e1; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+
+/* ══════════════════════════════════
+   10. АДАПТИВ — ПЛАНШЕТ до 1024px
+   сайдбар 200px, 3 колонки
+══════════════════════════════════ */
+@media (max-width: 1024px) {
+  .sidebar               { width: 200px; min-width: 200px; }
+  .header-right          { display: none; }
+  .header-search         { min-width: 200px; }
+  .main                  { padding: 20px 18px 36px; }
+  .products-grid         { grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .card-img-wrap         { height: 180px; }
+}
+
+
+/* ══════════════════════════════════
+   11. АДАПТИВ — ПЛАНШЕТ до 768px
+   категории наверху горизонтально,
+   1 колонка, карточка = 2/3 экрана,
+   фото = 70% карточки
+══════════════════════════════════ */
+@media (max-width: 768px) {
+
+  /* Шапка */
+  header           { padding: 0 16px; height: 56px; }
+  .logo            { font-size: 1.2rem; }
+  .logo-icon       { width: 30px; height: 30px; font-size: 1rem; }
+  .header-search   { min-width: 0; flex: 1; }
+  .header-right    { display: none; }
+
+  /* Макет — переключается в колонку */
+  .layout {
+    flex-direction: column;
+    height: auto;
+    min-height: calc(100vh - 56px);
+  }
+
+  /* Сайдбар → горизонтальная липкая полоса */
+  .sidebar {
+    width: 100%;
+    min-width: unset;
+    height: auto;
+    position: sticky;
+    top: 56px;
+    z-index: 90;
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 10px 16px;
+    border-right: none;
+    border-bottom: 1.5px solid var(--border);
+    gap: 8px;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    background: var(--sidebar-bg);
+  }
+
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar-title              { display: none; }
+  .sidebar-divider            { display: none; }
+
+  /* Элемент категории — вертикальный столбик */
+  .cat-item {
+    flex-direction: column;
+    align-items: center;
+    padding: 8px 16px;
+    border-left: none;
+    border-bottom: 3px solid transparent;
+    border-radius: 12px;
+    white-space: nowrap;
+    gap: 4px;
+    min-width: fit-content;
+    font-size: 0.8rem;
+  }
+
+  .cat-item:hover,
+  .cat-item.active {
+    border-left-color: transparent;
+    border-bottom-color: var(--accent);
+    background: var(--accent-light);
+    color: var(--accent);
+  }
+
+  .cat-icon  { width: 32px; height: 32px; font-size: 1.2rem; }
+  .cat-count { display: none; }
+
+  /* Контент */
+  .main         { padding: 24px 16px 48px; }
+  .main-header  { flex-direction: column; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+  .main-title   { font-size: 1.25rem; }
+  .sort-bar     { flex-wrap: wrap; gap: 6px; }
+  .sort-bar > span { display: none; }
+
+  /* Сетка — одна колонка, карточки по центру */
+  .products-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+  }
+
+  /* Карточка = 2/3 ширины экрана */
+  .product-card {
+    width: 67vw;
+    max-width: 400px;
+    min-width: 240px;
+    flex-direction: column;
+    border-radius: 22px;
+  }
+
+  .product-card:hover { transform: translateY(-5px) scale(1.015); }
+
+  /* Фото = 70% от высоты карточки */
+  .card-img-wrap {
+    width: 100%;
+    height: 0;
+    padding-top: 85%;       /* 85% ширины ≈ 70% общей высоты */
+    position: relative;
+    border-radius: 22px 22px 0 0;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  /* Emoji по центру фото */
+  .card-img-wrap .card-emoji {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 5.5rem;
+    line-height: 1;
+  }
+
+  .product-card:hover .card-img-wrap .card-emoji {
+    transform: translate(-50%, -50%) scale(1.18) rotate(-5deg);
+  }
+
+  /* Реальное фото по всему блоку */
+  .card-img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .card-badge    { top: 12px; left: 12px; font-size: 0.68rem; }
+  .card-wishlist { top: 10px; right: 10px; width: 34px; height: 34px; font-size: 1rem; }
+
+  /* Нижняя часть карточки */
+  .card-body  { padding: 18px 20px 20px; gap: 8px; flex: 1; }
+  .card-brand { font-size: 0.72rem; }
+  .card-name  { font-size: 1.08rem; }
+  .card-desc  { font-size: 0.83rem; display: block; }
+
+  .card-footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 14px;
+    padding-top: 12px;
+  }
+
+  .price-main { font-size: 1.18rem; }
+  .price-old  { font-size: 0.75rem; }
+  .card-btn   { padding: 9px 20px; font-size: 0.86rem; }
+
+  /* Модалка — шторка снизу */
+  .modal-overlay { align-items: flex-end; padding: 0; }
+
+  .modal {
+    width: 100vw;
+    max-width: 100vw;
+    border-radius: 26px 26px 0 0;
+    max-height: 93vh;
+    overflow-y: auto;
+    animation: modalUp 0.38s cubic-bezier(.22, .68, 0, 1.2) forwards;
+  }
+
+  @keyframes modalUp {
+    from { opacity: 0; transform: translateY(100%); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Фото модалки — авторазмер квадрат */
+  .modal-img {
+    aspect-ratio: 1 / 1;
+    height: auto;
+    max-height: none;
+    font-size: 6.5rem;
+    border-radius: 0;
+  }
+
+  .modal-body   { padding: 22px 24px 24px; }
+  .modal-brand  { font-size: 0.72rem; }
+  .modal-name   { font-size: 1.4rem; }
+  .modal-desc   { font-size: 0.88rem; }
+  .modal-price  { font-size: 1.55rem; }
+
+  .modal-footer {
+    flex-direction: column;
+    gap: 12px;
+    padding-top: 16px;
+  }
+
+  .modal-btn {
+    width: 100%;
+    text-align: center;
+    padding: 16px;
+    font-size: 1.05rem;
+    border-radius: 14px;
+  }
+
+  .modal-close { top: 14px; right: 14px; width: 34px; height: 34px; }
+}
+
+
+/* ══════════════════════════════════
+   12. АДАПТИВ — ТЕЛЕФОН до 480px
+   карточка 80vw, те же 70% фото
+══════════════════════════════════ */
+@media (max-width: 480px) {
+  header              { height: 52px; padding: 0 12px; }
+  .logo               { font-size: 1.05rem; }
+  .logo-icon          { width: 26px; height: 26px; }
+  .header-search input { font-size: 0.84rem; }
+  .sidebar            { top: 52px; padding: 8px 10px; gap: 6px; }
+  .cat-item           { padding: 7px 12px; font-size: 0.74rem; }
+  .cat-icon           { width: 28px; height: 28px; font-size: 1.1rem; }
+
+  .main       { padding: 20px 12px 40px; }
+  .main-title { font-size: 1.1rem; }
+
+  /* Карточка немного шире */
+  .product-card {
+    width: 82vw;
+    max-width: 360px;
+    min-width: 220px;
+  }
+
+  .card-img-wrap             { padding-top: 85%; }
+  .card-img-wrap .card-emoji { font-size: 5rem; }
+  .card-body  { padding: 14px 16px 16px; gap: 7px; }
+  .card-name  { font-size: 1rem; }
+  .card-desc  { font-size: 0.8rem; }
+  .card-btn   { padding: 8px 16px; font-size: 0.82rem; }
+  .price-main { font-size: 1.1rem; }
+
+  .modal-img   { aspect-ratio: 1 / 1; height: auto; max-height: none; font-size: 5.5rem; }
+  .modal-body  { padding: 18px 20px 20px; }
+  .modal-name  { font-size: 1.2rem; }
+  .modal-price { font-size: 1.35rem; }
+  .modal-btn   { padding: 14px; font-size: 0.98rem; }
+}
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-icon">🛒</div>
+    MarketPro
+  </div>
+  <div class="header-search">
+    <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24">
+      <circle cx="11" cy="11" r="8"/>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+    </svg>
+    <input type="text" id="searchInput" placeholder="Поиск товаров..." oninput="filterProducts()">
+  </div>
+  <div class="header-right">📦 Каталог товаров</div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">Категории</div>
+  </aside>
+  <main class="main">
+    <div class="main-header">
+      <div class="main-title" id="mainTitle">Все товары <span id="countBadge">0</span></div>
+      <div class="sort-bar">
+        <span>Сортировка:</span>
+        <button class="sort-btn active" onclick="setSort('default',this)">По умолчанию</button>
+        <button class="sort-btn" onclick="setSort('asc',this)">Дешевле</button>
+        <button class="sort-btn" onclick="setSort('desc',this)">Дороже</button>
+      </div>
+    </div>
+    <div class="products-grid" id="grid"></div>
+  </main>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <div class="modal-img" id="modalImg">
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+      <div class="modal-img-emoji" id="modalEmoji"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-brand" id="modalBrand"></div>
+      <div class="modal-name"  id="modalName"></div>
+      <div class="modal-desc"  id="modalDesc"></div>
+      <div class="modal-footer">
+        <div class="modal-price" id="modalPrice"></div>
+        <button class="modal-btn">📋 Заказать</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════════════
+   script.js — Логика каталога MarketPro
+   Структура:
+   1. PRODUCTS  — массив товаров (редактируй здесь!)
+   2. CATEGORIES — категории и иконки
+   3. Состояние приложения
+   4. Функции рендеринга
+   5. Фильтрация, поиск, сортировка
+   6. Модальное окно
+   7. Инициализация
+════════════════════════════════════════════════ */
+
+
+/* ══════════════════════════════════════════════
+   1. ДАННЫЕ ТОВАРОВ
+   ──────────────────────────────────────────────
+   Чтобы добавить товар — скопируй любую строку
+   и измени поля. Пояснения:
+
+   id        — уникальный номер (любое число)
+   category  — должна совпадать с именем в CATEGORIES
+   brand     — название бренда
+   name      — название товара
+   desc      — описание
+   price     — цена в сумах (число)
+   oldPrice  — старая цена (или null — тогда не показывается)
+   img       — путь к фото: 'images/shampun.jpg'
+               если фото нет — оставь null, будет emoji
+   emoji     — emoji если нет фото
+   badge     — 'sale' (Скидка), 'new' (Новинка) или null
+══════════════════════════════════════════════ */
+const PRODUCTS = [
+
+  // ── Шампуни ────────────────────────────────
+  {
+    id: 1,
+    category: 'Шампуни',
+    brand: 'HairLux',
+    name: 'Шампунь увлажняющий',
+    desc: 'Глубокое увлажнение для сухих и повреждённых волос. Формула с кератином и аргановым маслом.',
+    price: 12900,
+    oldPrice: 15000,
+    img: null,            // 👈 замени на: 'images/shampun-1.jpg'
+    emoji: '🧴',
+    badge: 'sale',
+  },
+  {
+    id: 2,
+    category: 'Шампуни',
+    brand: 'BioScalp',
+    name: 'Шампунь от перхоти',
+    desc: 'Эффективная формула с цинком. Устраняет перхоть уже после первого применения.',
+    price: 9800,
+    oldPrice: null,
+    img: 'images/1.gif',
+    emoji: '💧',
+    badge: 'new',
+  },
+  {
+    id: 3,
+    category: 'Шампуни',
+    brand: 'NaturGreen',
+    name: 'Шампунь для объёма',
+    desc: 'Растительные экстракты придают волосам невероятный объём и блеск с утра до ночи.',
+    price: 11200,
+    oldPrice: null,
+    img: 'images/Deo_universal.jpg',
+    emoji: '🌿',
+    badge: null,
+  },
+  {
+    id: 4,
+    category: 'Шампуни',
+    brand: 'SilkCare',
+    name: 'Шампунь 2-в-1',
+    desc: 'Шампунь и кондиционер в одном флаконе. Экономия времени без потери качества.',
+    price: 8500,
+    oldPrice: null,
+    img: null,
+    emoji: '✨',
+    badge: null,
+  },
+
+  // ── Мыло ───────────────────────────────────
+  {
+    id: 5,
+    category: 'Мыло',
+    brand: 'PureSoap',
+    name: 'Мыло глицериновое',
+    desc: 'Нежное мыло на глицериновой основе. Увлажняет и смягчает кожу рук и тела.',
+    price: 3200,
+    oldPrice: 4000,
+    img: null,
+    emoji: '🧼',
+    badge: 'sale',
+  },
+  {
+    id: 6,
+    category: 'Мыло',
+    brand: 'AromaBar',
+    name: 'Мыло ароматное «Лаванда»',
+    desc: 'Натуральное мыло ручной работы с маслом лаванды и экстрактом алоэ вера.',
+    price: 4500,
+    oldPrice: null,
+    img: null,
+    emoji: '💜',
+    badge: 'new',
+  },
+  {
+    id: 7,
+    category: 'Мыло',
+    brand: 'MediClean',
+    name: 'Антибактериальное мыло',
+    desc: 'Защищает от 99,9% бактерий. Рекомендовано для использования в медицине и HoReCa.',
+    price: 3800,
+    oldPrice: null,
+    img: null,
+    emoji: '🛡️',
+    badge: null,
+  },
+  {
+    id: 8,
+    category: 'Мыло',
+    brand: 'KidsLine',
+    name: 'Мыло детское',
+    desc: 'Гипоаллергенная формула для нежной детской кожи. Без красителей и парабенов.',
+    price: 2900,
+    oldPrice: null,
+    img: null,
+    emoji: '🐣',
+    badge: null,
+  },
+
+  // ── Жидкое мыло ────────────────────────────
+  {
+    id: 9,
+    category: 'Жидкое мыло',
+    brand: 'FoamFresh',
+    name: 'Жидкое мыло «Морской бриз»',
+    desc: 'Освежающий аромат океана. Пенящаяся формула мягко очищает кожу.',
+    price: 5600,
+    oldPrice: 7000,
+    img: null,
+    emoji: '🌊',
+    badge: 'sale',
+  },
+  {
+    id: 10,
+    category: 'Жидкое мыло',
+    brand: 'PureSoap',
+    name: 'Жидкое мыло с алоэ',
+    desc: 'Экстракт алоэ вера питает и защищает кожу. Подходит для чувствительной кожи.',
+    price: 4900,
+    oldPrice: null,
+    img: null,
+    emoji: '🌵',
+    badge: null,
+  },
+  {
+    id: 11,
+    category: 'Жидкое мыло',
+    brand: 'AromaBar',
+    name: 'Жидкое мыло «Цитрус»',
+    desc: 'Бодрящий цитрусовый аромат. Антибактериальная защита на весь день.',
+    price: 5100,
+    oldPrice: null,
+    img: null,
+    emoji: '🍋',
+    badge: 'new',
+  },
+
+  // ── Гели для душа ──────────────────────────
+  {
+    id: 12,
+    category: 'Гели для душа',
+    brand: 'SilkCare',
+    name: 'Гель для душа «Молоко»',
+    desc: 'Кремовая текстура на основе молочных протеинов. Оставляет кожу шелковистой.',
+    price: 7800,
+    oldPrice: 9500,
+    img: null,
+    emoji: '🥛',
+    badge: 'sale',
+  },
+  {
+    id: 13,
+    category: 'Гели для душа',
+    brand: 'NaturGreen',
+    name: 'Гель для душа «Лес»',
+    desc: 'Натуральные экстракты кедра и можжевельника. Ощущение свежего леса.',
+    price: 8200,
+    oldPrice: null,
+    img: null,
+    emoji: '🌲',
+    badge: null,
+  },
+  {
+    id: 14,
+    category: 'Гели для душа',
+    brand: 'BioScalp',
+    name: 'Гель-скраб для душа',
+    desc: '2-в-1: гель и скраб. Натуральные частицы бамбука мягко отшелушивают кожу.',
+    price: 9300,
+    oldPrice: null,
+    img: null,
+    emoji: '🎋',
+    badge: 'new',
+  },
+
+  // ── Кондиционеры ───────────────────────────
+  {
+    id: 15,
+    category: 'Кондиционеры',
+    brand: 'HairLux',
+    name: 'Кондиционер восстанавливающий',
+    desc: 'Восстанавливает повреждённые волосы после окрашивания и термообработки.',
+    price: 13500,
+    oldPrice: null,
+    img: null,
+    emoji: '💎',
+    badge: null,
+  },
+  {
+    id: 16,
+    category: 'Кондиционеры',
+    brand: 'SilkCare',
+    name: 'Несмываемый кондиционер',
+    desc: 'Лёгкая формула без смывания. Защищает от секущихся кончиков и придаёт блеск.',
+    price: 10800,
+    oldPrice: 12000,
+    img: null,
+    emoji: '🌸',
+    badge: 'sale',
+  },
+
+  // ── Жидкий порошок ─────────────────────────
+  {
+    id: 17,
+    category: 'Жидкий порошок',
+    brand: 'CleanPro',
+    name: 'Жидкий порошок «Белоснежка»',
+    desc: 'Отличное отстирывание белых тканей. Без хлора. Активные ферменты.',
+    price: 18500,
+    oldPrice: 22000,
+    img: null,
+    emoji: '❄️',
+    badge: 'sale',
+  },
+  {
+    id: 18,
+    category: 'Жидкий порошок',
+    brand: 'EcoWash',
+    name: 'Эко-порошок для цветного',
+    desc: 'Безопасен для яркого белья. Концентрат — экономичный расход на стирку.',
+    price: 16900,
+    oldPrice: null,
+    img: null,
+    emoji: '🌈',
+    badge: 'new',
+  },
+  {
+    id: 19,
+    category: 'Жидкий порошок',
+    brand: 'CleanPro',
+    name: 'Порошок для детских вещей',
+    desc: 'Гипоаллергенный. Подходит для стирки детской одежды с рождения.',
+    price: 15200,
+    oldPrice: null,
+    img: null,
+    emoji: '👶',
+    badge: null,
+  },
+];
+
+
+/* ══════════════════════════════════════════════
+   2. КАТЕГОРИИ И ИКОНКИ
+   ──────────────────────────────────────────────
+   Добавь свою категорию: { name: 'Название', icon: '🆕' }
+   Имя должно совпадать с полем category в PRODUCTS
+══════════════════════════════════════════════ */
+const CATEGORY_ICONS = {
+  'Все товары':     '🛍️',
+  'Шампуни':        '🧴',
+  'Мыло':           '🧼',
+  'Жидкое мыло':    '💧',
+  'Гели для душа':  '🚿',
+  'Кондиционеры':   '💆',
+  'Жидкий порошок': '🫧',
+};
+
+// Список всех категорий (собирается автоматически из товаров)
+const categories = ['Все товары', ...new Set(PRODUCTS.map(p => p.category))];
+
+
+/* ══════════════════════════════════════════════
+   3. СОСТОЯНИЕ ПРИЛОЖЕНИЯ
+══════════════════════════════════════════════ */
+let currentCategory = 'Все товары';
+let currentSort     = 'default';
+
+
+/* ══════════════════════════════════════════════
+   4. РЕНДЕРИНГ
+══════════════════════════════════════════════ */
+
+// Отрисовка сайдбара с категориями
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+
+  // Считаем товары в каждой категории
+  const catCounts = {};
+  PRODUCTS.forEach(p => {
+    catCounts[p.category] = (catCounts[p.category] || 0) + 1;
+  });
+
+  sidebar.innerHTML = '<div class="sidebar-title">Категории</div>';
+
+  categories.forEach((cat, i) => {
+    const count  = cat === 'Все товары' ? PRODUCTS.length : (catCounts[cat] || 0);
+    const icon   = CATEGORY_ICONS[cat] || '📦';
+    const active = cat === currentCategory ? 'active' : '';
+
+    // Разделитель перед первой настоящей категорией
+    if (i === 1) sidebar.innerHTML += '<div class="sidebar-divider"></div>';
+
+    sidebar.innerHTML += `
+      <div class="cat-item ${active}" onclick="selectCategory('${cat}')">
+        <span class="cat-icon">${icon}</span>
+        <span>${cat}</span>
+        <span class="cat-count">${count}</span>
+      </div>
+    `;
+  });
+}
+
+// Отрисовка сетки товаров
+function renderGrid() {
+  const grid  = document.getElementById('grid');
+  const badge = document.getElementById('countBadge');
+  const title = document.getElementById('mainTitle');
+  const items = getFiltered();
+
+  // Обновляем счётчик и заголовок
+  badge.textContent = items.length;
+  title.childNodes[0].textContent = currentCategory + ' ';
+
+  // Пустой результат
+  if (items.length === 0) {
+    grid.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🔍</div>
+        <h3>Ничего не найдено</h3>
+        <p>Попробуйте изменить запрос или категорию</p>
+      </div>
+    `;
+    return;
+  }
+
+  // Рисуем карточки
+  grid.innerHTML = items.map((p, i) => {
+
+    // Блок с фото: реальное фото или emoji-заглушка
+    const imgBlock = p.img
+      ? `<img src="${p.img}" alt="${p.name}" loading="lazy">`
+      : `<div class="card-emoji">${p.emoji}</div>`;
+
+    // Бейдж (скидка / новинка)
+    const badgeHtml = p.badge === 'sale'
+      ? '<div class="card-badge sale">Скидка</div>'
+      : p.badge === 'new'
+        ? '<div class="card-badge new">Новинка</div>'
+        : '';
+
+    // Старая цена
+    const oldPriceHtml = p.oldPrice
+      ? `<span class="price-old">${fmt(p.oldPrice)} сум</span>`
+      : '';
+
+    return `
+      <div class="product-card" onclick="openModal(${p.id})" style="animation-delay:${0.04 + i * 0.05}s">
+        ${badgeHtml}
+        <div class="card-wishlist" onclick="event.stopPropagation()">🤍</div>
+        <div class="card-img-wrap">
+          ${imgBlock}
+        </div>
+        <div class="card-body">
+          <div class="card-brand">${p.brand}</div>
+          <div class="card-name">${p.name}</div>
+          <div class="card-desc">${p.desc.substring(0, 70)}…</div>
+          <div class="card-footer">
+            <div class="card-price">
+              ${oldPriceHtml}
+              <span class="price-main">${fmt(p.price)} <span class="currency">сум</span></span>
+            </div>
+            <button class="card-btn">Подробнее</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+
+/* ══════════════════════════════════════════════
+   5. ФИЛЬТРАЦИЯ, ПОИСК, СОРТИРОВКА
+══════════════════════════════════════════════ */
+
+// Возвращает отфильтрованный и отсортированный список
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+
+  // Фильтр по категории
+  let list = currentCategory === 'Все товары'
+    ? PRODUCTS
+    : PRODUCTS.filter(p => p.category === currentCategory);
+
+  // Поиск по названию, бренду, описанию
+  if (q) {
+    list = list.filter(p =>
+      p.name.toLowerCase().includes(q)  ||
+      p.brand.toLowerCase().includes(q) ||
+      p.desc.toLowerCase().includes(q)
+    );
+  }
+
+  // Сортировка
+  if (currentSort === 'asc')  list = [...list].sort((a, b) => a.price - b.price);
+  if (currentSort === 'desc') list = [...list].sort((a, b) => b.price - a.price);
+
+  return list;
+}
+
+// Выбор категории
+function selectCategory(cat) {
+  currentCategory = cat;
+  renderSidebar();
+  renderGrid();
+}
+
+// Изменение сортировки
+function setSort(val, btn) {
+  currentSort = val;
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+// Поиск (вызывается из oninput в index.html)
+function filterProducts() {
+  renderGrid();
+}
+
+// Форматирование числа: 12900 → 12 900
+function fmt(n) {
+  return n.toLocaleString('ru-RU');
+}
+
+
+/* ══════════════════════════════════════════════
+   6. МОДАЛЬНОЕ ОКНО
+══════════════════════════════════════════════ */
+
+// Открыть модалку с данными товара
+function openModal(id) {
+  const p       = PRODUCTS.find(x => x.id === id);
+  const imgBox  = document.getElementById('modalImg');
+  const emojiEl = document.getElementById('modalEmoji');
+
+  if (p.img) {
+    // Показываем фото — вставляем тег <img> прямо в блок модалки
+    imgBox.innerHTML = `
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+      <img src="${p.img}" alt="${p.name}"
+           style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;">
+    `;
+  } else {
+    // Показываем emoji
+    imgBox.innerHTML = `
+      <button class="modal-close" onclick="closeModalBtn()">✕</button>
+      <div class="modal-img-emoji">${p.emoji}</div>
+    `;
+  }
+
+  document.getElementById('modalBrand').textContent = p.brand;
+  document.getElementById('modalName').textContent  = p.name;
+  document.getElementById('modalDesc').textContent  = p.desc;
+  document.getElementById('modalPrice').innerHTML   =
+    `${fmt(p.price)} <span class="currency">сум</span>`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+// Закрыть модалку по клику на оверлей
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+}
+
+// Закрыть модалку по кнопке ✕
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+}
+
+// Закрыть модалку по клавише Escape
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('modalOverlay').classList.remove('open');
+  }
+});
+
+
+/* ══════════════════════════════════════════════
+   7. ИНИЦИАЛИЗАЦИЯ — запускается при загрузке
+══════════════════════════════════════════════ */
+renderSidebar();
+renderGrid();
+</script>
+</body>
+</html>
